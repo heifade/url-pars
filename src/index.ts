@@ -1,35 +1,23 @@
-interface IProps {
-  /**
-   * url 地址
-   */
-  url: string;
-  /**
-   * 其它参数
-   */
-  [key: string]: string;
-}
-
 /**
- * url 地址拼接。 { url: "https://www.abc.com?t=55", par1: "abc", par2: "123" } => https://www.abc.com?t=55&par1=abc&par2=123
+ * url 地址拼接。"https://www.abc.com?t=55", { par1: "abc", par2: "123" } => https://www.abc.com?t=55&par1=abc&par2=123
+ * @param url
  * @param pars
  */
-export function urlPars(pars: IProps) {
-  const { url: url1, ...other } = pars;
+export function urlPars(url: string, pars?: { [key: string]: string }) {
+  const urlStr = url.trim().replace(/[\?\&]*$/, ""); // 去掉结尾的 ?&
 
-  const url = url1.trim().replace(/[\?\&]*$/, "");
+  if (!pars) {
+    return urlStr;
+  }
 
   const list: string[] = [];
-  Object.getOwnPropertyNames(other).map(key => {
-    list.push(`${key}=${encodeURIComponent(other[key])}`);
+  Object.getOwnPropertyNames(pars).map(key => {
+    list.push(`${key}=${encodeURIComponent(pars[key])}`);
   });
-  const urlOther = list.join("&");
-  if (urlOther) {
-    if (url.indexOf("?") > -1) {
-      return `${url}&${urlOther}`;
-    } else {
-      return `${url}?${urlOther}`;
-    }
+  const urlParsStr = list.join("&");
+  if (urlStr.indexOf("?") > -1) {
+    return `${urlStr}&${urlParsStr}`;
   } else {
-    return url;
+    return `${urlStr}?${urlParsStr}`;
   }
 }
