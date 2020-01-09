@@ -1,22 +1,20 @@
 # install
 
 ```sh
-npm i yymmdd -D
+npm i url-pars -D
 ```
 
-# sample
-
-If the system time is 2020-01-02 03:04:15
+# usage
 
 ```ts
-import { yyyymmdd, yyyymmddhhmmss, yyyy_mm_dd, yyyy_mm_dd_hh_mm_ss } from "yymmdd";
-yyyymmdd(); // 20200102
-yyyymmdd(new Date("2020/01/05")); // 20200105
-yyyymmddhhmmss(); // 20200102030415
-yyyymmddhhmmss(new Date("2020/01/05 12:13:14")); // 20200105121314
+import { urlPars } from "url-pars";
 
-yyyy_mm_dd(); // 2020-01-02
-yyyy_mm_dd(new Date("2020/01/05")); // 2020-01-05
-yyyy_mm_dd_hh_mm_ss(); // 2020-01-02 03:04:15
-yyyy_mm_dd_hh_mm_ss(new Date("2020/01/05 12:13:14")); // 2020-01-05 12:13:14
+urlPars("https://www.abc.com");  // https://www.abc.com
+urlPars("https://www.abc.com?");  // https://www.abc.com
+urlPars("https://www.abc.com?&");  // https://www.abc.com
+urlPars("https://www.abc.com", { par1: "abc", par2: "123" });  // https://www.abc.com?par1=abc&par2=123
+urlPars("https://www.abc.com?", { par1: "abc", par2: "123" });  // https://www.abc.com?par1=abc&par2=123
+urlPars("https://www.abc.com?t=55", { par1: "abc", par2: "123" });  // https://www.abc.com?t=55&par1=abc&par2=123
+urlPars("https://www.abc.com?t=55", { par1: "", par2: "" });  // https://www.abc.com?t=55&par1=&par2=
+urlPars("https://www.abc.com?t=55", { par1: "abc==", par2: "abc++" });  // https://www.abc.com?t=55&par1=abc%3D%3D&par2=abc%2B%2B
 ```
